@@ -28,7 +28,7 @@ export default [
   { name: 'torry', status: 'area', population: 11500, council: 'aberdeen city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
 
   { name: 'broughty ferry', status: 'area', population: 13000, council: 'dundee city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
-  { name: 'city centre', status: 'area', population: 15000, council: 'dundee city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'dundee city centre', status: 'area', population: 15000, council: 'dundee city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'downfield', status: 'area', population: 5000, council: 'dundee city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'lochee', status: 'area', population: 12000, council: 'dundee city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'ninewells', status: 'area', population: 3500, council: 'dundee city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
@@ -37,6 +37,10 @@ export default [
   { name: 'stirling', status: 'city', population: 38000, council: 'stirling council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
   { name: 'perth', status: 'city', population: 47000, council: 'perth and kinross council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
   { name: 'inverness', status: 'city', population: 48000, council: 'highland council', geography_type: 'on river', region: 'Highlands', has_uni: true, largest_settlement: true },
+  { name: 'edinburgh', status: 'city', population: 530000, council: 'edinburgh city council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
+  { name: 'glasgow', status: 'city', population: 620000, council: 'glasgow city council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
+  { name: 'aberdeen', status: 'city', population: 230000, council: 'aberdeen city council', geography_type: 'on river', region: 'Highlands', has_uni: true, largest_settlement: true },
+  { name: 'dundee', status: 'city', population: 148000, council: 'dundee council', geography_type: 'coastal', region: 'Central Belt', has_uni: true, largest_settlement: true },
 
   { name: 'east kilbride', status: 'new town', population: 75000, council: 'south lanarkshire council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: true },
   { name: 'livingston', status: 'new town', population: 57000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: true },
@@ -100,5 +104,5 @@ export default [
   { name: 'mallaig', status: 'town', population: 3100, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
   { name: 'kirriemuir', status: 'town', population: 13000, council: 'angus council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'lochwinnoch', status: 'town', population: 4000, council: 'renfrewshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'bolton', status: 'town', population: 0, council: 'north west england council', geography_type: 'landlocked', region: 'Central Belt', has_uni: null, largest_settlement: null }
+  { name: 'armadale', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
 ];
