@@ -1,8 +1,8 @@
 // scotdoku.js
-import settlements from './settlement.js';
+import settlements from './settlements.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('📦 Scotdoku script loaded');
+  console.log('📦 Scotdoku script loaded (text‐input mode)');
 
   const container = document.getElementById('scotdoku-container');
   if (!container) {
@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ——————————————————————————————
   // 1. DEFINE CATEGORIES
   // ——————————————————————————————
-  // Each cat: { label: 'text', fn: settlement => boolean }
+  // Each category is { label: '...', fn: (s) => boolean }.
+  // Adjust these as you see fit.
   const rowCategories = [
     { label: 'is a city', fn: (s) => s.status === 'city' },
     { label: 'population > 50 000', fn: (s) => typeof s.population === 'number' && s.population > 50000 },
@@ -39,55 +40,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ——————————————————————————————
-  // 3. BUILD ROW LABELS + SELECT CELLS
+  // 3. BUILD ROW LABELS + TEXT INPUT CELLS
   // ——————————————————————————————
   for (let i = 0; i < 3; i++) {
     // 3a) Row label at (row i+2, col 1)
     const rowLabel = document.createElement('div');
     rowLabel.className = 'label-cell';
     rowLabel.textContent = rowCategories[i].label;
-    rowLabel.style.gridRow = i + 2;   // 2..4
-    rowLabel.style.gridColumn = 1;    // always first column
+    rowLabel.style.gridRow = i + 2;   // rows 2,3,4
+    rowLabel.style.gridColumn = 1;    // column 1
     container.appendChild(rowLabel);
 
-    // 3b) Create 3 select-cells in that row
+    // 3b) Create 3 text‐input cells in that row
     for (let j = 0; j < 3; j++) {
-      // wrapper DIV
       const cellWrapper = document.createElement('div');
-      cellWrapper.className = 'select-cell';
+      cellWrapper.className = 'select-cell'; // we’re reusing the same styling
       cellWrapper.style.gridRow = i + 2;    // row 2..4
       cellWrapper.style.gridColumn = j + 2; // col 2..4
       cellWrapper.id = `cell-${i}-${j}`;
       cellWrapper.dataset.row = i;
       cellWrapper.dataset.col = j;
 
-      // the <select> itself
-      const select = document.createElement('select');
-      select.id = `select-${i}-${j}`;
+      // TEXT INPUT instead of <select>
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = `input-${i}-${j}`;
+      input.placeholder = 'type name...';
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      input.style.width = '100%';
 
-      // 3b.1 empty default option
-      const emptyOpt = document.createElement('option');
-      emptyOpt.value = '';
-      emptyOpt.textContent = '—';
-      select.appendChild(emptyOpt);
-
-      // 3b.2 fill with all settlement names, sorted
-      settlements
-        .map((s) => s.name)
-        .sort((a, b) => a.localeCompare(b))
-        .forEach((name) => {
-          const opt = document.createElement('option');
-          opt.value = name;
-          opt.textContent = name;
-          select.appendChild(opt);
-        });
-
-      cellWrapper.appendChild(select);
+      cellWrapper.appendChild(input);
       container.appendChild(cellWrapper);
     }
   }
 
-  console.log('✅ Grid (labels + selects) appended');
+  console.log('✅ Grid (labels + text‐inputs) appended');
 
   // ——————————————————————————————
   // 4. VALIDATION ON “Check” BUTTON
@@ -104,26 +92,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        const sel = document.getElementById(`select-${i}-${j}`);
+        const input = document.getElementById(`input-${i}-${j}`);
         const wrapper = document.getElementById(`cell-${i}-${j}`);
-        const chosenName = sel.value;
+        const typed = input.value.trim().toLowerCase();
 
-        if (!chosenName) {
+        if (!typed) {
+          // No text entered: mark incorrect
           wrapper.classList.remove('correct');
           wrapper.classList.add('incorrect');
           allCorrect = false;
           continue;
         }
 
-        const settlementObj = settlements.find((s) => s.name === chosenName);
+        // Find matching settlement by name (lowercase)
+        const settlementObj = settlements.find((s) => s.name === typed);
         if (!settlementObj) {
-          console.warn(`⚠️ Settlement “${chosenName}” not found in array.`)
+          // Not a valid name from the list
+          console.warn(`⚠️ Settlement “${typed}” not found in array.`);
           wrapper.classList.remove('correct');
           wrapper.classList.add('incorrect');
           allCorrect = false;
           continue;
         }
 
+        // Run category checks
         const rowPass = rowCategories[i].fn(settlementObj);
         const colPass = colCategories[j].fn(settlementObj);
 
@@ -138,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // Display summary
     if (allCorrect) {
       resultMessage.textContent = '✅ All 9 entries are correct!';
       resultMessage.style.color = 'green';
