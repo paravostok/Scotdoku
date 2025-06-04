@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scotdoku</title>
+  <style>
+    /* — basic grid styling — */
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    #scotdoku-container {
+      display: grid;
+      grid-template-rows: auto repeat(3, 1fr);
+      grid-template-columns: auto repeat(3, 1fr);
+      gap: 4px;
+      background: #ccc;
+      padding: 8px;
+      border-radius: 6px;
+    }
+    .label-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ddd;
+      font-weight: bold;
+      text-align: center;
+      padding: 4px;
+      border: 1px solid #aaa;
+    }
+    .select-cell {
+      border: 1px solid #aaa;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+    .select-cell select {
+      width: 100%;
+      padding: 2px;
+    }
+    #check-button {
+      margin-top: 12px;
+      padding: 8px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #result-message {
+      margin-top: 8px;
+      font-weight: bold;
+    }
+    .correct {
+      border: 2px solid green !important;
+    }
+    .incorrect {
+      border: 2px solid red !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scotdoku</h1>
+  <div id="scotdoku-container">
+    <!-- top-left corner empty -->
+    <div class="label-cell"></div>
+    <!-- column labels go in columns 2–4 of row 1 -->
+    <div id="col-label-0" class="label-cell"></div>
+    <div id="col-label-1" class="label-cell"></div>
+    <div id="col-label-2" class="label-cell"></div>
+
+    <!-- row labels & grid cells inserted by script -->
+    <!-- script will append 3 rows below -->
+  </div>
+
+  <button id="check-button">Check</button>
+  <div id="result-message"></div>
+
+  <!-- load scotdoku logic as a module -->
+  <script type="module" src="./scotdoku.js"></script>
+</body>
+</html>
