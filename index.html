@@ -21,7 +21,9 @@
     }
     #scotdoku-container {
       display: grid;
+      /* first row: empty corner + 3 column labels */
       grid-template-rows: auto repeat(3, 1fr);
+      /* first column: row labels; next 3 are cells */
       grid-template-columns: auto repeat(3, 1fr);
       gap: 4px;
       background: #ccc;
@@ -71,21 +73,19 @@
 <body>
   <h1>Scotdoku</h1>
   <div id="scotdoku-container">
-    <!-- top-left corner empty -->
-    <div class="label-cell"></div>
-    <!-- column labels go in columns 2–4 of row 1 -->
-    <div id="col-label-0" class="label-cell"></div>
-    <div id="col-label-1" class="label-cell"></div>
-    <div id="col-label-2" class="label-cell"></div>
-
-    <!-- row labels & grid cells inserted by script -->
-    <!-- script will append 3 rows below -->
+    <!-- top-left placeholder for the “empty corner” -->
+    <div class="label-cell" style="grid-row: 1; grid-column: 1;"></div>
+    <!-- column labels will go here -->
+    <div id="col-label-0" class="label-cell" style="grid-row: 1; grid-column: 2;"></div>
+    <div id="col-label-1" class="label-cell" style="grid-row: 1; grid-column: 3;"></div>
+    <div id="col-label-2" class="label-cell" style="grid-row: 1; grid-column: 4;"></div>
+    <!-- the rest of the grid (row labels + selects) is appended by JavaScript -->
   </div>
 
   <button id="check-button">Check</button>
   <div id="result-message"></div>
 
-  <!-- load scotdoku logic as a module -->
+  <!-- note: type="module" is required to import settlements.js -->
   <script type="module" src="./scotdoku.js"></script>
 </body>
 </html>
