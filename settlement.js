@@ -112,5 +112,26 @@ export default [
   { name: 'north berwick', status: 'town', population: 7600, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'westhill', status: 'town', population: 12000, council: 'aberdeenshire council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
   { name: 'whitburn', status: 'town', population: 15000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'fauldhouse', status: 'town', population: 4800, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
+  { name: 'fauldhouse', status: 'town', population: 4800, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'annan', status: 'town', population: 8900, council: 'dumfries and galloway council', geography_type: 'coastal', region: 'Borders', has_uni: false, largest_settlement: false },
+{ name: 'arbroath', status: 'town', population: 23800, council: 'angus council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'alexandria', status: 'town', population: 6700, council: 'west dunbartonshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'buckie', status: 'town', population: 8400, council: 'moray council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'carnoustie', status: 'town', population: 10700, council: 'angus council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'dalkeith', status: 'town', population: 11600, council: 'midlothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: true, largest_settlement: false },
+{ name: 'dunbar', status: 'town', population: 8600, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'ellon', status: 'town', population: 8600, council: 'aberdeenshire council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'forres', status: 'town', population: 8500, council: 'moray council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'gretna', status: 'town', population: 3000, council: 'dumfries and galloway council', geography_type: 'landlocked', region: 'Borders', has_uni: false, largest_settlement: false },
+{ name: 'haddington', status: 'town', population: 8800, council: 'east lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'inverurie', status: 'town', population: 9600, council: 'aberdeenshire council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'kirkintilloch', status: 'town', population: 20000, council: 'east dunbartonshire council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'largs', status: 'town', population: 10900, council: 'north ayrshire council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'montrose', status: 'town', population: 11400, council: 'angus council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'penicuik', status: 'town', population: 16000, council: 'midlothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'stonehaven', status: 'town', population: 9400, council: 'aberdeenshire council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+{ name: 'thurso', status: 'town', population: 8500, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: true, largest_settlement: false },
+{ name: 'prestonpans', status: 'town', population: 10400, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+{ name: 'gorebridge', status: 'town', population: 8900, council: 'midlothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
+  
 ];
