@@ -6,110 +6,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Scotdoku</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f9fb;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      margin: 0;
-    }
+    /* main page */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f9fb;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  margin: 0;
+}
 
-    h1 {
-      font-size: 2.2rem;
-      color: #2c3e50;
-      margin-bottom: 1.5rem;
-    }
+/* title */
+h1 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
 
-    #scotdoku-container {
-      display: grid;
-      grid-template-rows: repeat(4, auto);
-      grid-template-columns: repeat(4, auto);
-      gap: 6px;
-      background: #e0e6ed;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-    }
+/* main grid */
+#scotdoku-container {
+  display: grid;
+  grid-template-rows: auto repeat(3, 1fr);
+  grid-template-columns: auto repeat(3, 1fr);
+  gap: 6px;
+  background: #e0e6ed;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
 
-    .label-cell {
-      background: #d1dce5;
-      color: #2c3e50;
-      font-weight: 600;
-      font-size: 1rem;
-      text-align: center;
-      padding: 8px;
-      border-radius: 6px;
-    }
+/* label cell (row/col headers) */
+.label-cell {
+  background: #d1dce5;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  padding: 8px;
+  border-radius: 6px;
+}
 
-    .select-cell {
-      background: #fff;
-      border: 2px solid #cfd8dc;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      transition: border 0.2s ease;
-    }
+/* input cells */
+.select-cell {
+  background: #fff;
+  border: 2px solid #cfd8dc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: border 0.2s ease;
+}
 
-    .select-cell:hover {
-      border-color: #90caf9;
-    }
+.select-cell:hover {
+  border-color: #90caf9;
+}
 
-    .select-cell input {
-      width: 100%;
-      height: 100%;
-      font-size: 1.2rem;
-      padding: 6px;
-      border: none;
-      outline: none;
-      text-align: center;
-      background: transparent;
-    }
+/* input styling */
+.select-cell input {
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+  padding: 6px;
+  border: none;
+  outline: none;
+  text-align: center;
+  background: transparent;
+}
 
-    #controls {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
+/* button bar */
+#controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
 
-    button {
-      padding: 10px 18px;
-      font-size: 1rem;
-      background-color: #2c3e50;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
+button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
-    button:hover {
-      background-color: #1a242f;
-    }
+button:hover {
+  background-color: #1a242f;
+}
 
-    #result-message {
-      margin-top: 16px;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
+/* feedback text */
+#result-message {
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
 
-    .correct {
-      border-color: #4caf50 !important;
-    }
+/* validation borders */
+.correct {
+  border-color: #4caf50 !important;
+}
 
-    .incorrect {
-      border-color: #e53935 !important;
-    }
+.incorrect {
+  border-color: #e53935 !important;
+}
+    
   </style>
 </head>
 <body>
   <h1>Scotdoku</h1>
-  <div id="scotdoku-container"></div>
+  <div id="scotdoku-container">
+    <!-- top-left placeholder for the “empty corner” -->
+    <div class="label-cell" style="grid-row: 1; grid-column: 1;"></div>
+    <!-- column labels will go here at (1,2),(1,3),(1,4) -->
+    <div id="col-label-0" class="label-cell" style="grid-row: 1; grid-column: 2;"></div>
+    <div id="col-label-1" class="label-cell" style="grid-row: 1; grid-column: 3;"></div>
+    <div id="col-label-2" class="label-cell" style="grid-row: 1; grid-column: 4;"></div>
+    <!-- row labels & inputs get appended by scotdoku.js -->
+  </div>
 
   <div id="controls">
     <button id="new-puzzle-button">New Puzzle</button>
@@ -117,132 +135,7 @@
   </div>
   <div id="result-message"></div>
 
-  <script type="module">
-    import settlements from './settlement.js';
-    import seedrandom from 'seedrandom';
-
-    const container = document.getElementById('scotdoku-container');
-    const checkButton = document.getElementById('check-button');
-    const newPuzzleButton = document.getElementById('new-puzzle-button');
-    const resultMessage = document.getElementById('result-message');
-
-    function getDateSeed() {
-      const now = new Date();
-      return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-    }
-
-    function makeSeededRandom(seed) {
-      return seedrandom(seed);
-    }
-
-    function shuffleArray(arr, rng = Math.random) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(rng() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function getRandomTargetSettlement(rng = Math.random) {
-      const pool = settlements.filter((s) => s.status !== 'area');
-      const idx = Math.floor(rng() * pool.length);
-      return pool[idx];
-    }
-
-    function getAllCategoriesForSettlement(s) {
-      const cats = [];
-      if (typeof s.status === 'string' && s.status.length) {
-        cats.push({ label: `status: ${s.status}`, fn: (x) => x.status === s.status });
-      }
-      if (typeof s.council === 'string' && s.council.length) {
-        cats.push({ label: `council: ${s.council}`, fn: (x) => x.council === s.council });
-      }
-      if (typeof s.name === 'string' && s.name.length) {
-        const firstLetter = s.name.charAt(0).toLowerCase();
-        cats.push({ label: `first letter: ${firstLetter}`, fn: (x) => x.name.charAt(0).toLowerCase() === firstLetter });
-      }
-      if (typeof s.region === 'string' && s.region.length) {
-        cats.push({ label: s.region, fn: (x) => x.region === s.region });
-      }
-      if (typeof s.geography_type === 'string' && s.geography_type.length) {
-        cats.push({ label: s.geography_type, fn: (x) => x.geography_type === s.geography_type });
-      }
-      if (typeof s.population === 'number') {
-        if (s.population > 100000) {
-          cats.push({ label: 'population > 100 000', fn: (x) => typeof x.population === 'number' && x.population > 100000 });
-        }
-        if (s.population > 50000) {
-          cats.push({ label: 'population > 50 000', fn: (x) => typeof x.population === 'number' && x.population > 50000 });
-        }
-        if (s.population > 10000) {
-          cats.push({ label: 'population > 10 000', fn: (x) => typeof x.population === 'number' && x.population > 10000 });
-        }
-      }
-      if (s.has_uni === true) {
-        cats.push({ label: 'has uni', fn: (x) => x.has_uni === true });
-      }
-      if (s.largest_settlement === true) {
-        cats.push({ label: 'largest settlement in council', fn: (x) => x.largest_settlement === true && x.council === s.council });
-      }
-      if (cats.length < 6) {
-        cats.push({ label: 'no special designation', fn: (_) => true });
-      }
-      return cats;
-    }
-
-    let currentRowCategories = [];
-    let currentColCategories = [];
-
-    function buildNewPuzzle(rng = Math.random) {
-      const currentTarget = getRandomTargetSettlement(rng);
-      const allCats = getAllCategoriesForSettlement(currentTarget);
-      shuffleArray(allCats, rng);
-      const chosen6 = allCats.slice(0, 6);
-
-      currentRowCategories = chosen6.slice(0, 3);
-      currentColCategories = chosen6.slice(3, 6);
-
-      container.innerHTML = '';
-
-      const corner = document.createElement('div');
-      corner.className = 'label-cell';
-      corner.textContent = '';
-      container.appendChild(corner);
-
-      for (let j = 0; j < 3; j++) {
-        const colLabel = document.createElement('div');
-        colLabel.className = 'label-cell';
-        colLabel.textContent = currentColCategories[j].label;
-        container.appendChild(colLabel);
-      }
-
-      for (let i = 0; i < 3; i++) {
-        const rowLabel = document.createElement('div');
-        rowLabel.className = 'label-cell';
-        rowLabel.textContent = currentRowCategories[i].label;
-        container.appendChild(rowLabel);
-
-        for (let j = 0; j < 3; j++) {
-          const cell = document.createElement('div');
-          cell.className = 'select-cell';
-
-          const input = document.createElement('input');
-          input.type = 'text';
-          input.placeholder = 'Enter town…';
-
-          cell.appendChild(input);
-          container.appendChild(cell);
-        }
-      }
-    }
-
-    const todaySeed = getDateSeed();
-    const todayRNG = makeSeededRandom(todaySeed);
-    buildNewPuzzle(todayRNG);
-
-    newPuzzleButton.addEventListener('click', () => {
-      buildNewPuzzle(Math.random);
-    });
-  </script>
+  <!-- load scotdoku logic as a module -->
+  <script type="module" src="./scotdoku.js"></script>
 </body>
 </html>
