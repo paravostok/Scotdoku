@@ -49,7 +49,7 @@ export default [
 
   { name: 'paisley', status: 'town', population: 77000, council: 'renfrewshire council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
   { name: 'hamilton', status: 'town', population: 54000, council: 'south lanarkshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'kirkcaldy', status: 'town', population: 50000, council: 'fife council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'kirkcaldy', status: 'town', population: 60200, council: 'fife council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'kilmarnock', status: 'town', population: 47000, council: 'east ayrshire council', geography_type: 'on river', region: 'Central Belt', has_uni: true, largest_settlement: true },
   { name: 'ayr', status: 'town', population: 46000, council: 'south ayrshire council', geography_type: 'coastal', region: 'Central Belt', has_uni: true, largest_settlement: true },
   { name: 'coatbridge', status: 'town', population: 44000, council: 'north lanarkshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
@@ -104,5 +104,13 @@ export default [
   { name: 'mallaig', status: 'town', population: 3100, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
   { name: 'kirriemuir', status: 'town', population: 13000, council: 'angus council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'lochwinnoch', status: 'town', population: 4000, council: 'renfrewshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'armadale', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
+  { name: 'armadale', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'silverknowes', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'blackburn', status: 'town', population: 6000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false},
+  { name: 'uphall', status: 'town', population: 5000, council: 'west lothian council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'helensburgh', status: 'town', population: 15000, council: 'argyll and bute council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: true },
+  { name: 'north berwick', status: 'town', population: 7600, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'westhill', status: 'town', population: 12000, council: 'aberdeenshire council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'whitburn', status: 'town', population: 15000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'fauldhouse', status: 'town', population: 4800, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
 ];
