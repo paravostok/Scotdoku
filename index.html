@@ -29,6 +29,7 @@
       background: #ccc;
       padding: 8px;
       border-radius: 6px;
+      margin-bottom: 12px;
     }
     .label-cell {
       display: flex;
@@ -48,18 +49,23 @@
       justify-content: center;
       padding: 2px;
     }
-    .select-cell select {
+    .select-cell input {
       width: 100%;
       padding: 2px;
+      box-sizing: border-box;
     }
-    #check-button {
-      margin-top: 12px;
+    #controls {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+    button {
       padding: 8px 16px;
       font-size: 1rem;
       cursor: pointer;
     }
     #result-message {
-      margin-top: 8px;
+      margin-top: 12px;
       font-weight: bold;
     }
     .correct {
@@ -75,17 +81,20 @@
   <div id="scotdoku-container">
     <!-- top-left placeholder for the “empty corner” -->
     <div class="label-cell" style="grid-row: 1; grid-column: 1;"></div>
-    <!-- column labels will go here -->
+    <!-- column labels will go here at (1,2),(1,3),(1,4) -->
     <div id="col-label-0" class="label-cell" style="grid-row: 1; grid-column: 2;"></div>
     <div id="col-label-1" class="label-cell" style="grid-row: 1; grid-column: 3;"></div>
     <div id="col-label-2" class="label-cell" style="grid-row: 1; grid-column: 4;"></div>
-    <!-- the rest of the grid (row labels + selects) is appended by JavaScript -->
+    <!-- row labels & inputs get appended by scotdoku.js -->
   </div>
 
-  <button id="check-button">Check</button>
+  <div id="controls">
+    <button id="new-puzzle-button">New Puzzle</button>
+    <button id="check-button">Check</button>
+  </div>
   <div id="result-message"></div>
 
-  <!-- note: type="module" is required to import settlements.js -->
+  <!-- load scotdoku logic as a module -->
   <script type="module" src="./scotdoku.js"></script>
 </body>
 </html>
