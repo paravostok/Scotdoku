@@ -1,5 +1,5 @@
 // scotdoku.js
-import settlements from './settlements.js';
+import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('📦 Scotdoku script loaded (dynamic categories)');
