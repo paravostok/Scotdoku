@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cats = [];
     const tags = s.tags;
 
-    // 1) positive categories for each tag
     tags.forEach(tag => {
       cats.push({
         label: tag,
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // 2) negative categories for selected tags
     ['new town','market town','town'].forEach(tag => {
       cats.push({
         label: `not ${tag}`,
@@ -36,17 +34,31 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // 3) population thresholds
     cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
     cats.push({ label: 'population <= 10000', fn: x => x.population <= 10000 });
     cats.push({ label: 'population > 50000', fn: x => x.population > 50000 });
     cats.push({ label: 'population <= 50000', fn: x => x.population <= 50000 });
+    cats.push({ label: 'population > 100000', fn: x => x.population > 100000 });
+    cats.push({ label: 'population <= 100000', fn: x => x.population <= 100000 });
 
-    // ensure at least 6 categories
     if (cats.length < 6) {
       cats.push({ label: 'no special designation', fn: _ => true });
     }
     return cats;
+  }
+
+  function conflictingCats(cat1, cat2) {
+    const pairs = [
+      ['population > 10000', 'population <= 10000'],
+      ['population > 50000', 'population <= 50000'],
+      ['population > 100000', 'population <= 100000'],
+      ['town', 'not town'],
+      ['new town', 'not new town'],
+      ['market town', 'not market town']
+    ];
+    return pairs.some(([a, b]) =>
+      (cat1.label === a && cat2.label === b) || (cat1.label === b && cat2.label === a)
+    );
   }
 
   function getRandomSettlement() {
@@ -56,21 +68,31 @@ document.addEventListener('DOMContentLoaded', () => {
   let rowCats = [], colCats = [];
   function buildPuzzle() {
     const target = getRandomSettlement();
-    const allCats = getAllCategories(target);
+    let allCats = getAllCategories(target);
     shuffle(allCats);
-    const chosen = allCats.slice(0, 6);
+    const chosen = [];
+
+    for (let i = 0; i < allCats.length && chosen.length < 6; i++) {
+      const cat = allCats[i];
+      if (chosen.every(c => !conflictingCats(c, cat))) {
+        chosen.push(cat);
+      }
+    }
+
+    while (chosen.length < 6) {
+      chosen.push({ label: 'no special designation', fn: _ => true });
+    }
+
     rowCats = chosen.slice(0, 3);
     colCats = chosen.slice(3, 6);
 
     container.innerHTML = '';
-    // corner
     const corner = document.createElement('div');
     corner.className = 'label-cell';
     corner.style.gridRow = 1;
     corner.style.gridColumn = 1;
     container.appendChild(corner);
 
-    // column labels
     colCats.forEach((cat, j) => {
       const el = document.createElement('div');
       el.className = 'label-cell';
@@ -80,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
       container.appendChild(el);
     });
 
-    // rows + inputs
     rowCats.forEach((cat, i) => {
       const rowLabel = document.createElement('div');
       rowLabel.className = 'label-cell';
