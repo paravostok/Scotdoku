@@ -1,25 +1,26 @@
 // settlement.js - revamped to use flat tags array
 
 const AREA_TAGS = {
-  'aberdeen city council': ['northeast', 'city and shire'],
-  'aberdeenshire council': ['northeast', 'city and shire'],
+  'aberdeen city council': ['northeast', 'grampian', 'east coast'],
+  'aberdeenshire council': ['northeast', 'grampian'],
   'angus council': ['tayside', 'east coast'],
   'argyll and bute council': ['west coast'],
   'clackmannanshire council': ['forth valley'],
   'dumfries and galloway council': ['borders'],
+  'dundee city council': ['northeast', 'east coast' 'tayside'],
   'east ayrshire council': ['ayrshire', 'west coast'],
   'east dunbartonshire council': ['central belt'],
   'east renfrewshire council': ['central belt'],
   'east lothian council': ['central belt', 'east coast'],
   'edinburgh city council': ['central belt', 'east coast'],
-  'falkirk council': ['forth valley'],
+  'falkirk council': ['forth valley', 'central belt'],
   'fife council': ['fife', 'east coast', 'central belt'],
   'glasgow city council': ['central belt', 'west coast'],
   'highland council': ['highlands'],
   'inverclyde council': ['west coast'],
   'midlothian council': ['central belt'],
   'moray council': ['northeast'],
-  'na h-eileanan siar': ['islands'],
+  'western isles': ['islands', 'west coast'],
   'north ayrshire council': ['ayrshire', 'west coast'],
   'north lanarkshire council': ['central belt'],
   'orkney islands council': ['islands'],
@@ -31,7 +32,7 @@ const AREA_TAGS = {
   'south lanarkshire council': ['central belt'],
   'stirling council': ['forth valley'],
   'west dunbartonshire council': ['west coast'],
-  'west lothian council': ['central belt']
+  'west lothian council': ['central belt', 'east coast']
 };
 
 export default (rawSettlements => {
