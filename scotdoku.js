@@ -1,8 +1,8 @@
-// scotdoku.js
+// scotdoku.js - adapted for flat tags
 import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('📦 Scotdoku script loaded (expanded category set)');
+  console.log('📦 Scotdoku script loaded (tags-driven)');
 
   const container = document.getElementById('scotdoku-container');
   const checkButton = document.getElementById('check-button');
@@ -10,13 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultMessage = document.getElementById('result-message');
 
   if (!container || !checkButton || !newPuzzleButton) {
-    console.error('❌ Missing required DOM elements. Make sure index.html has #scotdoku-container, #check-button, and #new-puzzle-button.');
+    console.error('❌ Missing DOM elements.');
     return;
   }
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // Utility: shuffle an array in‐place (Fisher–Yates)
-  // ───────────────────────────────────────────────────────────────────────────
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -25,288 +22,127 @@ document.addEventListener('DOMContentLoaded', () => {
     return arr;
   }
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // 1. Build a list of “category objects” that apply to settlement `s`.
-  //
-  // Each category object is:
-  //   { label: 'some text', fn: settlement => boolean }
-  //
-  // We will always include at least:
-  //   • status: <status>          (e.g. "status: city")
-  //   • council: <council name>    (e.g. "council: fife council")
-  //   • first letter: <A-Z>        (e.g. "first letter: e")
-  //   • region: <Highlands|Islands|Central Belt|Borders>
-  //   • geography_type: <coastal|on river|landlocked>
-  //
-  // Then optional:
-  //   • population threshold
-  //   • has_uni
-  //   • largest settlement in council
-  //
-  // Finally, if we still have fewer than 6 categories, we push a fallback “no special designation” category.
-  // ───────────────────────────────────────────────────────────────────────────
   function getAllCategoriesForSettlement(s) {
     const cats = [];
+    const t = tags => s.tags.includes(tags);
 
-    // 1) Status (always present in your 200-entry array)
-    if (typeof s.status === 'string' && s.status.length) {
-      cats.push({
-        label: `status: ${s.status}`,
-        fn: (x) => x.status === s.status,
-      });
-    } else {
-      // if for some reason status is missing or empty
-      cats.push({
-        label: 'no special designation',
-        fn: (_) => true,
-      });
-    }
-
-    // 2) Council
-    if (typeof s.council === 'string' && s.council.length) {
-      cats.push({
-        label: `council: ${s.council}`,
-        fn: (x) => x.council === s.council,
-      });
-    }
-
-    // 3) First letter of name (A–Z)
-    if (typeof s.name === 'string' && s.name.length) {
-      const firstLetter = s.name.charAt(0).toLowerCase();
-      cats.push({
-        label: `first letter: ${firstLetter}`,
-        fn: (x) => x.name.charAt(0).toLowerCase() === firstLetter,
-      });
-    }
-
-    // 4) Region (Highlands, Islands, Central Belt, Borders)
-    if (typeof s.region === 'string' && s.region.length) {
-      cats.push({
-        label: s.region,
-        fn: (x) => x.region === s.region,
-      });
-    }
-
-    // 5) Geography type (coastal, on river, landlocked)
-    if (typeof s.geography_type === 'string' && s.geography_type.length) {
-      cats.push({
-        label: s.geography_type,
-        fn: (x) => x.geography_type === s.geography_type,
-      });
-    }
-
-    // 6) Population thresholds
-    if (typeof s.population === 'number') {
-      if (s.population > 100000) {
-        cats.push({
-          label: 'population > 100 000',
-          fn: (x) => typeof x.population === 'number' && x.population > 100000,
-        });
+    // status and its false opposite
+    s.tags.forEach(tag => {
+      if (['town','new town','market town','city','area'].includes(tag)) {
+        const norm = tag === 'new town' || tag === 'market town' ? 'town' : tag;
+        cats.push({ label: `status: ${norm}`, fn: x => x.tags.includes(norm) });
       }
-      if (s.population > 50000) {
-        cats.push({
-          label: 'population > 50 000',
-          fn: (x) => typeof x.population === 'number' && x.population > 50000,
-        });
-      }
-      if (s.population > 10000) {
-        cats.push({
-          label: 'population > 10 000',
-          fn: (x) => typeof x.population === 'number' && x.population > 10000,
-        });
-      }
-    }
+    });
+    cats.push({ label: 'status: not new town', fn: x => !x.tags.includes('new town') });
 
-    // 7) has_uni
-    if (s.has_uni === true) {
-      cats.push({
-        label: 'has uni',
-        fn: (x) => x.has_uni === true,
-      });
-    }
+    // council tags
+    s.tags.filter(tag => tag.endsWith('council')).forEach(c => {
+      cats.push({ label: `council: ${c}`, fn: x => x.tags.includes(c) });
+    });
 
-    // 8) largest_settlement in council
-    if (s.largest_settlement === true) {
-      cats.push({
-        label: 'largest settlement in council',
-        fn: (x) => x.largest_settlement === true && x.council === s.council,
-      });
-    }
+    // first letter
+    const fl = s.name.charAt(0).toLowerCase();
+    cats.push({ label: `first letter: ${fl}`, fn: x => x.name.charAt(0).toLowerCase() === fl });
 
-    // 9) Fallback “no special designation,” ensures we hit at least 6
+    // region / area tags
+    ['highlands','islands','central belt','borders','northeast','east coast','west coast','tayside','fife','ayrshire','forth valley','city and shire'].forEach(region => {
+      cats.push({ label: region, fn: x => x.tags.includes(region) });
+    });
+
+    // geography
+    ['coastal','on river','landlocked'].forEach(g => {
+      cats.push({ label: g, fn: x => x.tags.includes(g) });
+    });
+
+    // population thresholds & opposites
+    cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
+    cats.push({ label: 'population <= 10000', fn: x => x.population <= 10000 });
+
+    // custom boolean tags if any
+    ['has_uni','largest_settlement'].forEach(tag => {
+      cats.push({ label: tag.replace('_',' '), fn: x => x.tags.includes(tag) });
+      cats.push({ label: `not ${tag.replace('_',' ')}`, fn: x => !x.tags.includes(tag) });
+    });
+
+    // ensure at least 6 categories
     if (cats.length < 6) {
-      cats.push({
-        label: 'no special designation',
-        fn: (_) => true,
-      });
+      cats.push({ label: 'no special designation', fn: _ => true });
     }
-    // Even if cats.length is exactly 5, we now have 6. If it was fewer, we still have at least 6.
-    // (Note: if we somehow had more than 6, we'll shuffle & pick only 6 later.)
 
     return cats;
   }
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // 2. Pick a random “target” settlement each time (exclude status="area" if desired).
-  // ───────────────────────────────────────────────────────────────────────────
   function getRandomTargetSettlement() {
-    // You asked to “choose a random new town/city each day,” so we exclude status === "area"
-    const pool = settlements.filter((s) => s.status !== 'area');
-    const idx = Math.floor(Math.random() * pool.length);
-    return pool[idx];
+    const pool = settlements; // include all, or filter out if desired
+    return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // 3. Build (or rebuild) the 3×3 grid with 6 categories derived from one target:
-  //    • Choose target
-  //    • Gather all categories (≥6 guaranteed by fallback)
-  //    • Shuffle & take first 6 => rowCats (0..2) + colCats (3..5)
-  //    • Rebuild the HTML grid
-  // ───────────────────────────────────────────────────────────────────────────
   let currentRowCategories = [];
   let currentColCategories = [];
-  let currentTarget = null;
 
   function buildNewPuzzle() {
-    // 3.1 pick a random target
-    currentTarget = getRandomTargetSettlement();
-    console.log('🎯 Today’s target settlement:', currentTarget.name);
+    const target = getRandomTargetSettlement();
+    console.log('🎯 target:', target.name);
 
-    // 3.2 gather all categories for that target
-    const allCats = getAllCategoriesForSettlement(currentTarget);
-    // shuffle & take exactly 6
+    const allCats = getAllCategoriesForSettlement(target);
     shuffleArray(allCats);
-    const chosen6 = allCats.slice(0, 6);
+    const chosen = allCats.slice(0,6);
+    currentRowCategories = chosen.slice(0,3);
+    currentColCategories = chosen.slice(3,6);
 
-    // 3.3 split into rows and columns
-    currentRowCategories = chosen6.slice(0, 3);
-    currentColCategories = chosen6.slice(3, 6);
-
-    // 3.4 clear out existing grid:
     container.innerHTML = '';
-
-    // 3.4a re‐append the fixed “empty corner” at (1,1)
+    // corner
     const corner = document.createElement('div');
     corner.className = 'label-cell';
-    corner.style.gridRow = 1;
-    corner.style.gridColumn = 1;
+    corner.style.gridRow = 1; corner.style.gridColumn = 1;
     container.appendChild(corner);
 
-    // 3.4b add column labels at (1,2), (1,3), (1,4)
-    for (let j = 0; j < 3; j++) {
-      const colLabel = document.createElement('div');
-      colLabel.className = 'label-cell';
-      colLabel.style.gridRow = 1;
-      colLabel.style.gridColumn = j + 2;
-      colLabel.textContent = currentColCategories[j].label;
-      colLabel.id = `col-label-${j}`;
-      container.appendChild(colLabel);
-    }
+    // column labels
+    currentColCategories.forEach((cat,j) => {
+      const el = document.createElement('div');
+      el.className = 'label-cell';
+      el.style.gridRow = 1; el.style.gridColumn = j+2;
+      el.textContent = cat.label;
+      container.appendChild(el);
+    });
 
-    // 3.4c build 3 rows (rows 2..4), each with a row label + 3 text inputs
-    for (let i = 0; i < 3; i++) {
-      // row label at (i+2, 1)
+    // rows
+    currentRowCategories.forEach((cat,i) => {
       const rowLabel = document.createElement('div');
       rowLabel.className = 'label-cell';
-      rowLabel.textContent = currentRowCategories[i].label;
-      rowLabel.style.gridRow = i + 2;
-      rowLabel.style.gridColumn = 1;
+      rowLabel.style.gridRow = i+2; rowLabel.style.gridColumn = 1;
+      rowLabel.textContent = cat.label;
       container.appendChild(rowLabel);
 
-      // 3 text‐input cells in columns 2..4
-      for (let j = 0; j < 3; j++) {
-        const cellWrapper = document.createElement('div');
-        cellWrapper.className = 'select-cell';
-        cellWrapper.style.gridRow = i + 2;
-        cellWrapper.style.gridColumn = j + 2;
-        cellWrapper.id = `cell-${i}-${j}`;
-        cellWrapper.dataset.row = i;
-        cellWrapper.dataset.col = j;
-
+      for (let j=0;j<3;j++) {
+        const cell = document.createElement('div');
+        cell.className = 'select-cell';
+        cell.style.gridRow = i+2; cell.style.gridColumn = j+2;
+        cell.id = `cell-${i}-${j}`;
         const input = document.createElement('input');
-        input.type = 'text';
-        input.id = `input-${i}-${j}`;
-        input.placeholder = 'type name…';
-        input.autocomplete = 'off';
-        input.spellcheck = false;
-
-        cellWrapper.appendChild(input);
-        container.appendChild(cellWrapper);
+        input.type = 'text'; input.id = `input-${i}-${j}`;
+        cell.appendChild(input);
+        container.appendChild(cell);
       }
-    }
-
-    // clear any previous result text
+    });
     resultMessage.textContent = '';
   }
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // 4. “Check” logic: test each of the 9 inputs against its row & column categories
-  // ───────────────────────────────────────────────────────────────────────────
   checkButton.addEventListener('click', () => {
-    if (!currentRowCategories.length || !currentColCategories.length) {
-      console.warn('⚠️ No puzzle built yet. Click “New Puzzle.”');
-      return;
-    }
-
     let allCorrect = true;
-
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        const input = document.getElementById(`input-${i}-${j}`);
-        const wrapper = document.getElementById(`cell-${i}-${j}`);
-        const typed = input.value.trim().toLowerCase();
-
-        if (!typed) {
-          // empty: incorrect
-          wrapper.classList.remove('correct');
-          wrapper.classList.add('incorrect');
-          allCorrect = false;
-          continue;
-        }
-
-        const settlementObj = settlements.find((s) => s.name === typed);
-        if (!settlementObj) {
-          console.warn(`⚠️ Typed entry “${typed}” not found.`);
-          wrapper.classList.remove('correct');
-          wrapper.classList.add('incorrect');
-          allCorrect = false;
-          continue;
-        }
-
-        // run row‐ and column tests
-        const rowPass = currentRowCategories[i].fn(settlementObj);
-        const colPass = currentColCategories[j].fn(settlementObj);
-
-        if (rowPass && colPass) {
-          wrapper.classList.remove('incorrect');
-          wrapper.classList.add('correct');
-        } else {
-          wrapper.classList.remove('correct');
-          wrapper.classList.add('incorrect');
-          allCorrect = false;
-        }
-      }
+    for (let i=0;i<3;i++) for (let j=0;j<3;j++) {
+      const inp = document.getElementById(`input-${i}-${j}`);
+      const cell = document.getElementById(`cell-${i}-${j}`);
+      const val = inp.value.trim().toLowerCase();
+      const obj = settlements.find(s => s.name === val);
+      const ok = obj && currentRowCategories[i].fn(obj) && currentColCategories[j].fn(obj);
+      cell.classList.toggle('correct', ok);
+      cell.classList.toggle('incorrect', !ok);
+      if (!ok) allCorrect = false;
     }
-
-    // display summary
-    if (allCorrect) {
-      resultMessage.textContent = '✅ All 9 entries are correct!';
-      resultMessage.style.color = 'green';
-    } else {
-      resultMessage.textContent = '❌ Some entries are incorrect.';
-      resultMessage.style.color = 'red';
-    }
+    resultMessage.textContent = allCorrect ? '✅ All correct!' : '❌ Some incorrect.';
   });
 
-  // ───────────────────────────────────────────────────────────────────────────
-  // 5. “New Puzzle” logic: re‐generate from scratch
-  // ───────────────────────────────────────────────────────────────────────────
-  newPuzzleButton.addEventListener('click', () => {
-    buildNewPuzzle();
-  });
-
-  // ───────────────────────────────────────────────────────────────────────────
-  // 6. On initial load, create the first puzzle
-  // ───────────────────────────────────────────────────────────────────────────
+  newPuzzleButton.addEventListener('click', buildNewPuzzle);
   buildNewPuzzle();
 });
