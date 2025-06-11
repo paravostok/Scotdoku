@@ -7,7 +7,7 @@ const AREA_TAGS = {
   'argyll and bute council': ['west coast'],
   'clackmannanshire council': ['forth valley'],
   'dumfries and galloway council': ['borders'],
-  'dundee city council': ['northeast', 'east coast' 'tayside'],
+  'dundee city council': ['northeast', 'east coast', 'tayside'],
   'east ayrshire council': ['ayrshire', 'west coast'],
   'east dunbartonshire council': ['central belt'],
   'east renfrewshire council': ['central belt'],
