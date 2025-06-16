@@ -186,5 +186,6 @@ export default (rawSettlements => {
   { name: 'thurso', status: 'town', population: 8500, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: true, largest_settlement: false },
   { name: 'prestonpans', status: 'town', population: 10400, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'gorebridge', status: 'town', population: 8900, council: 'midlothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'linlithgow', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false } 
+  { name: 'linlithgow', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'coatbridge', status: 'town', population: 44000, council: 'north lanarkshire', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settllement: false }
 ]);
