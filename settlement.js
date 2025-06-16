@@ -62,6 +62,10 @@ export default (rawSettlements => {
   { name: 'pollokshields', status: 'area', population: 24000, council: 'glasgow city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'shettleston', status: 'area', population: 15000, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'springburn', status: 'area', population: 16500, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'cessnock', status: 'area', population: 4000, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'ibrox', status: 'area', population: 6000, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'kelvinbridge', status: 'area', population: 10500, council: 'glasgow city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'cowcaddens', status: 'area', population: 4500, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
 
   { name: 'leith', status: 'area', population: 13000, council: 'edinburgh city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'new town', status: 'area', population: 20500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
@@ -73,7 +77,17 @@ export default (rawSettlements => {
   { name: 'gorgie', status: 'area', population: 13300, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'corstorphine', status: 'area', population: 18400, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'haymarket', status: 'area', population: 3800, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'newhaven', status: 'area', population: 3000, council: 'edinburgh city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'ingliston', status: 'area', population: 1500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'gogar', status: 'area', population: 1000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'gogarburn', status: 'area', population: 1200, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'saughton', status: 'area', population: 3000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'bankhead', status: 'area', population: 2500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'edinburgh park', status: 'area', population: 1000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'murrayfield', status: 'area', population: 7000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'balgreen', status: 'area', population: 3500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
 
+  
   { name: 'altens', status: 'area', population: 4000, council: 'aberdeen city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'bridge of don', status: 'area', population: 11800, council: 'aberdeen city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'dyce', status: 'area', population: 10500, council: 'aberdeen city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
