@@ -90,6 +90,20 @@ const FERRY_TAGS = {
   'tingwall': ['ferry']
 };
 
+const AIR_TAGS = {
+  'edinburgh': ['airport'],
+  'dundee': ['airport'],
+  'ingliston': ['airport'],
+  'dyce': ['airport'],
+  'prestwick': ['airport'],
+  'paisley': ['airport'],
+  'aberdeen': ['airport'],
+  'inverness': ['airport'],
+  'kirkwall': ['airport'],
+  'perth': ['airport'],
+  'glasgow': ['airport']
+};
+
 const HIST_TRAMS_TAGS = {
   'glasgow': ['historic trams'],
   'dundee': ['historic trams'],
@@ -129,6 +143,9 @@ export default (rawSettlements => {
 
     const ferry = FERRY_TAGS[s.name.toLowerCase()];
     if (ferry) tags.push(...ferry);
+
+    const air = AIR_TAGS[s.name.toLowerCase()];
+    if (air) tags.push(...air);
     
     if (GCR_COUNCILS.includes(s.council.toLowerCase())) {
   tags.push('glasgow city region');
