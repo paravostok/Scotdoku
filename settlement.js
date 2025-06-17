@@ -36,6 +36,7 @@ const AREA_TAGS = {
 };
 
 const TRAM_TAGS = {
+  'edinburgh': ['tram'],
   'coatbridge': ['tram'],
   'leith': ['tram'],
   'new town': ['tram'],
@@ -52,6 +53,7 @@ const TRAM_TAGS = {
 };
 
 const SUBWAY_TAGS = {
+  'glasgow': ['subway'],
   'govan': ['subway'],
   'hillhead': ['subway'],
   'partick': ['subway'],
