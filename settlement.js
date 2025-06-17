@@ -104,6 +104,26 @@ const AIR_TAGS = {
   'glasgow': ['airport']
 };
 
+const ROYAL_BURGHES = {
+  'edinburgh': true,
+  'perth': true,
+  'stirling': true,
+  'dumfries': true,
+  'elgin': true,
+  'inverness': true,
+  'lanark': true,
+  'kirkwall': true,
+  'dornoch': true,
+  'rothesay': true,
+  'dundee': true,
+  'aberdeen': true,
+  'ayr': true,
+  'montrose': true,
+  'linlithgow': true,
+  'rutherglen': true,
+  'glasgow': true
+};
+
 const HIST_TRAMS_TAGS = {
   'glasgow': ['historic trams'],
   'dundee': ['historic trams'],
@@ -153,6 +173,10 @@ export default (rawSettlements => {
 
     const historicTrams = HIST_TRAMS_TAGS[s.name.toLowerCase()];
     if (historicTrams) tags.push(...historicTrams);
+
+    if (ROYAL_BURGHES[s.name.toLowerCase()]) {
+  tags.push('royal burgh');
+    }
 
     return {
       name: s.name,
