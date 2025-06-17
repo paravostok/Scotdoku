@@ -33,7 +33,9 @@ const AREA_TAGS = {
   'stirling council': ['forth valley'],
   'west dunbartonshire council': ['west coast'],
   'west lothian council': ['central belt', 'east coast']
-  // tram stops
+};
+
+const TRAM_TAGS = {
   'coatbridge': ['tram'],
   'leith': ['tram'],
   'new town': ['tram'],
@@ -46,8 +48,10 @@ const AREA_TAGS = {
   'bankhead': ['tram'],
   'edinburgh park': ['tram'],
   'balgreen': ['tram'],
-  'murrayfield': ['tram'],
-  // subway stations
+  'murrayfield': ['tram']
+};
+
+const SUBWAY_TAGS = {
   'govan': ['subway'],
   'hillhead': ['subway'],
   'partick': ['subway'],
@@ -64,8 +68,16 @@ export default (rawSettlements => {
     tags.push(s.council.toLowerCase());
     tags.push(s.geography_type);
     tags.push(s.region.toLowerCase());
+
     const area = AREA_TAGS[s.council.toLowerCase()];
     if (area) tags.push(...area);
+
+    const tram = TRAM_TAGS[s.name.toLowerCase()];
+    if (tram) tags.push(...tram);
+
+    const subway = SUBWAY_TAGS[s.name.toLowerCase()];
+    if (subway) tags.push(...subway);
+
     return {
       name: s.name,
       population: s.population,
