@@ -201,6 +201,170 @@ const HIST_TRAMS_TAGS = {
   'edinburgh': ['historic trams']
 };
 
+const AREA_TRAIN_STATIONS = {
+  // glasgow city council areas
+  "anderston": true,
+  "anniesland": false,
+  "govan": false,
+  "hillhead": false,
+  "maryhill": true,
+  "parkhead": false,
+  "partick": true,
+  "pollokshields": true,
+  "shettleston": true,
+  "springburn": true,
+  "cessnock": false,
+  "ibrox": false,
+  "kelvinbridge": false,
+  "cowcaddens": false,
+
+  // edinburgh city council areas
+  "leith": false,
+  "new town": false,
+  "old town": false,
+  "morningside": false,
+  "portobello": false,
+  "stockbridge": false,
+  "dean village": false,
+  "gorgie": false,
+  "corstorphine": false,
+  "haymarket": true,
+  "newhaven": false,
+  "ingliston": false,
+  "gogar": false,
+  "gogarburn": false,
+  "saughton": false,
+  "bankhead": false,
+  "edinburgh park": true,
+  "murrayfield": false,
+  "balgreen": false,
+
+  // aberdeen city council areas
+  "altens": false,
+  "bridge of don": false,
+  "dyce": true,
+  "old aberdeen": false,
+  "torry": false,
+
+  // dundee city council areas
+  "broughty ferry": false,
+  "dundee city centre": true,
+  "downfield": false,
+  "lochee": false,
+  "ninewells": false,
+
+  // cities
+  "aberdeen": true,
+  "dundee": true,
+  "perth": true,
+  "glasgow": true,
+  "edinburgh": true,
+  "stirling": true,
+  "dunfermline": true,
+  "inverness": true,
+
+  // new towns
+  "east kilbride": true,
+  "livingston": true,
+  "irvine": true,
+  "cumbernauld": true,
+  "glenrothes": false,
+
+  // major towns
+  "paisley": true,
+  "hamilton": true,
+  "kirkcaldy": true,
+  "kilmarnock": true,
+  "ayr": true,
+  "coatbridge": true,
+  "greenock": true,
+  "airdrie": true,
+  "motherwell": true,
+  "rutherglen": true,
+  "cambuslang": true,
+  "wishaw": true,
+  "bearsden": true,
+  "newton_mearns": false,
+  "clydebank": true,
+  "elgin": true,
+  "renfrew": false,
+  "bishopbriggs": true,
+  "bathgate": true,
+  "arbroath": true,
+  "kirkintilloch": true,
+  "musselburgh": true,
+  "dumbarton": true,
+  "bellshill": true,
+  "peterhead": false,
+  "st_andrews": false,
+  "bonnyrigg": false,
+  "barrhead": true,
+  "blantyre": true,
+  "penicuik": true,
+  "grangemouth": false,
+  "kilwinning": true,
+  "broxburn": false,
+  "johnstone": true,
+  "viewpark": false,
+  "larkhall": true,
+  "erskine": false,
+
+  // market & small towns
+  "callander": false,
+  "crieff": false,
+  "aberfeldy": false,
+  "kelso": false,
+  "jedburgh": false,
+  "innerleithen": false,
+  "haddington": true,
+  "lanark": true,
+  "peebles": false,
+  "galston": false,
+  "kirkwall": true,
+  "stromness": false,
+  "lerwick": false,
+  "stornoway": false,
+  "mallaig": false,
+  "kirriemuir": false,
+  "lochwinnoch": true,
+  "armadale": true,
+  "silverknowes": false,
+  "blackburn": false,
+  "uphall": false,
+  "helensburgh": true,
+  "north berwick": true,
+  "westhill": false,
+  "whitburn": false,
+  "fauldhouse": true,
+  "annan": true,
+  "alexandria": true,
+  "buckie": false,
+  "carnoustie": true,
+  "dalkeith": true,
+  "dunbar": true,
+  "ellon": false,
+  "forres": true,
+  "gretna": true,
+  "inverurie": true,
+
+  // other coastal & island settlements
+  "kirkintilloch": true,
+  "largs": true,
+  "montrose": true,
+  "stonehaven": true,
+  "thurso": true,
+  "prestonpans": true,
+  "gorebridge": false,
+  "linlithgow": true,
+  "gourock": true,
+  "craignure": false,
+  "rosyth": true,
+  "wemyss bay": true,
+  "ullapool": false,
+  "tarbert": false,
+  "tingwall": false
+};
+  
 export default (rawSettlements => {
   return rawSettlements.map(s => {
     const tags = [];
@@ -226,6 +390,9 @@ export default (rawSettlements => {
 
     const hospital = HOSPITAL_TAGS[s.name.toLowerCase()];
     if (hospital) tags.push(...hospital);
+
+    const hasTrain = AREA_TRAIN_STATIONS[s.name.toLowerCase()];
+    if (hasTrain) tags.push('train station');
     
     const college = COLLEGE_TAGS[s.name.toLowerCase()];
     if (college) tags.push(...college);
