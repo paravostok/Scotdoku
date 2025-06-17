@@ -35,6 +35,17 @@ const AREA_TAGS = {
   'west lothian council': ['central belt', 'east coast']
 };
 
+const GCR_COUNCILS = [
+  'glasgow city council',
+  'east renfrewshire council',
+  'renfrewshire council',
+  'east dunbartonshire council',
+  'west dunbartonshire council',
+  'north lanarkshire council',
+  'south lanarkshire council',
+  'inverclyde council'
+];
+
 const TRAM_TAGS = {
   'edinburgh': ['tram'],
   'coatbridge': ['tram'],
@@ -61,6 +72,22 @@ const SUBWAY_TAGS = {
   'ibrox': ['subway'],
   'kelvinbridge': ['subway'],
   'cowcaddens': ['subway']
+};
+
+const FERRY_TAGS = {
+  'gourock': ['ferry'],
+  'oban': ['ferry'],
+  'lerwick': ['ferry'],
+  'brodick': ['ferry'],
+  'mallaig': ['ferry'],
+  'craignure': ['ferry'],
+  'stromness': ['ferry'],
+  'rosyth': ['ferry'],
+  'wemyss bay': ['ferry'],
+  'ullapool': ['ferry'],
+  'tarbert': ['ferry'],
+  'stornoway': ['ferry'],
+  'tingwall': ['ferry']
 };
 
 const HIST_TRAMS_TAGS = {
@@ -99,6 +126,13 @@ export default (rawSettlements => {
 
     const subway = SUBWAY_TAGS[s.name.toLowerCase()];
     if (subway) tags.push(...subway);
+
+    const ferry = FERRY_TAGS[s.name.toLowerCase()];
+    if (ferry) tags.push(...ferry);
+    
+    if (GCR_COUNCILS.includes(s.council.toLowerCase())) {
+  tags.push('glasgow city region');
+    }
 
     const historicTrams = HIST_TRAMS_TAGS[s.name.toLowerCase()];
     if (historicTrams) tags.push(...historicTrams);
@@ -261,5 +295,15 @@ export default (rawSettlements => {
   { name: 'prestonpans', status: 'town', population: 10400, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'gorebridge', status: 'town', population: 8900, council: 'midlothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'linlithgow', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'coatbridge', status: 'town', population: 44000, council: 'north lanarkshire', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false }
+  { name: 'coatbridge', status: 'town', population: 44000, council: 'north lanarkshire', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'gourock', status: 'town', population: 10500, council: 'inverclyde council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'lerwick', status: 'town', population: 6900, council: 'shetland islands council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: true },
+  { name: 'mallaig', status: 'village', population: 800, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'craignure', status: 'village', population: 200, council: 'argyll and bute council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'stromness', status: 'town', population: 2200, council: 'orkney islands council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'rosyth', status: 'town', population: 13800, council: 'fife council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'wemyss bay', status: 'village', population: 2600, council: 'inverclyde council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'ullapool', status: 'village', population: 1500, council: 'highland council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'tarbert', status: 'village', population: 1300, council: 'argyll and bute council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
+  { name: 'tingwall', status: 'village', population: 280, council: 'shetland islands council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false }
 ]);
