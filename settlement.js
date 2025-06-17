@@ -63,6 +63,26 @@ const SUBWAY_TAGS = {
   'cowcaddens': ['subway']
 };
 
+const HIST_TRAMS_TAGS = {
+  'glasgow': ['historic trams'],
+  'dundee': ['historic trams'],
+  'aberdeen': ['historic trams'],  // also fixed typo here
+  'perth': ['historic trams'],
+  'ayr': ['historic trams'],
+  'airdrie': ['historic trams'],
+  'dunfermline': ['historic trams'],
+  'falkirk': ['historic trams'],
+  'hamilton': ['historic trams'],
+  'motherwell': ['historic trams'],
+  'wishaw': ['historic trams'],
+  'musselburgh': ['historic trams'],
+  'kilmarnock': ['historic trams'],
+  'kirkcaldy': ['historic trams'],
+  'paisley': ['historic trams'],
+  'stirling': ['historic trams'],
+  'edinburgh': ['historic trams']
+};
+
 export default (rawSettlements => {
   return rawSettlements.map(s => {
     const tags = [];
@@ -80,6 +100,9 @@ export default (rawSettlements => {
     const subway = SUBWAY_TAGS[s.name.toLowerCase()];
     if (subway) tags.push(...subway);
 
+    const historicTrams = HIST_TRAMS_TAGS[s.name.toLowerCase()];
+    if (historicTrams) tags.push(...historicTrams);
+
     return {
       name: s.name,
       population: s.population,
@@ -87,6 +110,7 @@ export default (rawSettlements => {
     };
   });
 })([
+  
   //AREAS//
    { name: 'anderston', status: 'area', population: 7400, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'anniesland', status: 'area', population: 9100, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
