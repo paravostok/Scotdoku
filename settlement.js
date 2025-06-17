@@ -33,6 +33,28 @@ const AREA_TAGS = {
   'stirling council': ['forth valley'],
   'west dunbartonshire council': ['west coast'],
   'west lothian council': ['central belt', 'east coast']
+  // tram stops
+  'coatbridge': ['tram'],
+  'leith': ['tram'],
+  'new town': ['tram'],
+  'haymarket': ['tram'],
+  'ingliston': ['tram'],
+  'gogar': ['tram'],
+  'gogarburn': ['tram'],
+  'saughton': ['tram'],
+  'newhaven': ['tram'],
+  'bankhead': ['tram'],
+  'edinburgh park': ['tram'],
+  'balgreen': ['tram'],
+  'murrayfield': ['tram'],
+  // subway stations
+  'govan': ['subway'],
+  'hillhead': ['subway'],
+  'partick': ['subway'],
+  'cessnock': ['subway'],
+  'ibrox': ['subway'],
+  'kelvinbridge': ['subway'],
+  'cowcaddens': ['subway']
 };
 
 export default (rawSettlements => {
