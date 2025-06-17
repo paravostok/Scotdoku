@@ -74,6 +74,36 @@ const SUBWAY_TAGS = {
   'cowcaddens': ['subway']
 };
 
+const HOSPITAL_TAGS = {
+  'aberdeen': ['hospital'],
+  'dumfries': ['hospital'],
+  'edinburgh': ['hospital'],
+  'glasgow': ['hospital'],
+  'inverness': ['hospital'],
+  'kirkcaldy': ['hospital'],
+  'lerwick': ['hospital'],
+  'livingston': ['hospital'],
+  'paisley': ['hospital'],
+  'perth': ['hospital'],
+  'stirling': ['hospital'],
+  'dundee': ['hospital'],
+  'ayr': ['hospital'],
+  'kilmarnock': ['hospital'],
+  'melrose': ['hospital'],
+  'elgin': ['hospital'],
+  'falkirk': ['hospital'],
+  'fort william': ['hospital'],
+  'oban': ['hospital'],
+  'stornoway': ['hospital'],
+  'banff': ['hospital'],
+  'greenock': ['hospital'],
+  'wishaw': ['hospital'],
+  'clydebank': ['hospital'],
+  'motherwell': ['hospital'],
+  'dunfermline': ['hospital']
+};
+
+
 const FERRY_TAGS = {
   'gourock': ['ferry'],
   'oban': ['ferry'],
@@ -194,6 +224,9 @@ export default (rawSettlements => {
     const air = AIR_TAGS[s.name.toLowerCase()];
     if (air) tags.push(...air);
 
+    const hospital = HOSPITAL_TAGS[s.name.toLowerCase()];
+    if (hospital) tags.push(...hospital);
+    
     const college = COLLEGE_TAGS[s.name.toLowerCase()];
     if (college) tags.push(...college);
     
