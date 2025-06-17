@@ -124,6 +124,33 @@ const ROYAL_BURGHES = {
   'glasgow': true
 };
 
+  const COLLEGE_TAGS = {
+  'livingston': ['college'],
+  'falkirk': ['college'],
+  'cumbernauld': ['college'],
+  'motherwell': ['college'],
+  'coatbridge': ['college'],
+  'glasgow': ['college'],
+  'edinburgh': ['college'],
+  'dundee': ['college'],
+  'arbroath': ['college'],
+  'glenrothes': ['college'],
+  'galashiels': ['college'],
+  'haddington': ['college'],
+  'dumfries': ['college'],
+  'kilmarnock': ['college'],
+  'inverness': ['college'],
+  'stornoway': ['college'],
+  'lerwick': ['college'],
+  'perth': ['college'],
+  'elgin': ['college'],
+  'oban': ['college'],
+  'dunoon': ['college'],
+  'greenock': ['college'],
+  'paisley': ['college'],
+  'east kilbride': ['college']
+};
+
 const HIST_TRAMS_TAGS = {
   'glasgow': ['historic trams'],
   'dundee': ['historic trams'],
@@ -166,6 +193,9 @@ export default (rawSettlements => {
 
     const air = AIR_TAGS[s.name.toLowerCase()];
     if (air) tags.push(...air);
+
+    const college = COLLEGE_TAGS[s.name.toLowerCase()];
+    if (college) tags.push(...college);
     
     if (GCR_COUNCILS.includes(s.council.toLowerCase())) {
   tags.push('glasgow city region');
