@@ -1,4 +1,3 @@
-// scotdoku.js - simplified tags-driven implementation
 import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkButton = document.getElementById('check-button');
   const newPuzzleButton = document.getElementById('new-puzzle-button');
   const resultMessage = document.getElementById('result-message');
-  if (!container || !checkButton || !newPuzzleButton) return;
+  const header = document.querySelector('.header');
+  if (!container || !checkButton || !newPuzzleButton || !header) return;
 
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -21,17 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const tags = s.tags;
 
     tags.forEach(tag => {
-      cats.push({
-        label: tag,
-        fn: x => x.tags.includes(tag)
-      });
+      cats.push({ label: tag, fn: x => x.tags.includes(tag) });
     });
 
     ['new town','market town','town'].forEach(tag => {
-      cats.push({
-        label: `not ${tag}`,
-        fn: x => !x.tags.includes(tag)
-      });
+      cats.push({ label: `not ${tag}`, fn: x => !x.tags.includes(tag) });
     });
 
     cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
@@ -65,9 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return settlements[Math.floor(Math.random() * settlements.length)];
   }
 
-  let rowCats = [], colCats = [];
+  let rowCats = [], colCats = [], target;
   function buildPuzzle() {
-    const target = getRandomSettlement();
+    header.classList.remove('chosen');
+    target = getRandomSettlement();
+    header.textContent = `🔍 ${target.name.charAt(0).toUpperCase() + target.name.slice(1)}`;
+    header.classList.add('chosen');
+
     let allCats = getAllCategories(target);
     shuffle(allCats);
     const chosen = [];
@@ -128,13 +126,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkButton.addEventListener('click', () => {
     let allCorrect = true;
+    const vals = [];
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        const input = document.getElementById(`input-${i}-${j}`);
+        vals.push(input.value.trim().toLowerCase());
+      }
+    }
+
+    const dupCounts = vals.reduce((acc, v) => {
+      if (!v) return acc;
+      acc[v] = (acc[v] || 0) + 1;
+      return acc;
+    }, {});
+
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         const input = document.getElementById(`input-${i}-${j}`);
         const cell = input.parentElement;
         const val = input.value.trim().toLowerCase();
         const obj = settlements.find(s => s.name.toLowerCase() === val);
-        const ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj);
+        let ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj);
+        if (val && dupCounts[val] > 1) ok = false; // prevent duplicates
         cell.classList.toggle('correct', ok);
         cell.classList.toggle('incorrect', !ok);
         if (!ok) allCorrect = false;
@@ -146,3 +160,4 @@ document.addEventListener('DOMContentLoaded', () => {
   newPuzzleButton.addEventListener('click', buildPuzzle);
   buildPuzzle();
 });
+ 
