@@ -451,7 +451,8 @@ export default (rawSettlements => {
   { name: 'edinburgh park', status: 'area', population: 1000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'murrayfield', status: 'area', population: 7000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'balgreen', status: 'area', population: 3500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
-
+  { name: 'silverknowes', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'granton', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
   
   { name: 'altens', status: 'area', population: 4000, council: 'aberdeen city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'bridge of don', status: 'area', population: 11800, council: 'aberdeen city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
@@ -537,7 +538,6 @@ export default (rawSettlements => {
   { name: 'kirriemuir', status: 'town', population: 13000, council: 'angus council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'lochwinnoch', status: 'town', population: 4000, council: 'renfrewshire council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'armadale', status: 'town', population: 13000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'silverknowes', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'blackburn', status: 'town', population: 6000, council: 'west lothian council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false},
   { name: 'uphall', status: 'town', population: 5000, council: 'west lothian council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'helensburgh', status: 'town', population: 15000, council: 'argyll and bute council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: true },
