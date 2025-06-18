@@ -1,4 +1,4 @@
-// scotdoku.js
+// scotdoku.js - fixed version with feedback classes and unique entry enforcement
 import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkButton = document.getElementById('check-button');
   const newPuzzleButton = document.getElementById('new-puzzle-button');
   const resultMessage = document.getElementById('result-message');
-  const header = document.querySelector('.header');
-  if (!container || !checkButton || !newPuzzleButton || !header) return;
+  if (!container || !checkButton || !newPuzzleButton) return;
 
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -17,25 +16,39 @@ document.addEventListener('DOMContentLoaded', () => {
     return arr;
   }
 
-  function getAllCategories(settlement) {
+  function getAllCategories(s) {
     const cats = [];
-    settlement.tags.forEach(tag => {
-      cats.push({ label: tag, fn: s => s.tags.includes(tag) });
+    const tags = s.tags;
+
+    tags.forEach(tag => {
+      cats.push({
+        label: tag,
+        fn: x => x.tags.includes(tag)
+      });
     });
+
     ['new town', 'market town', 'town'].forEach(tag => {
-      cats.push({ label: `not ${tag}`, fn: s => !s.tags.includes(tag) });
+      cats.push({
+        label: `not ${tag}`,
+        fn: x => !x.tags.includes(tag)
+      });
     });
-    const popChecks = [10000, 50000, 100000];
-    popChecks.forEach(val => {
-      cats.push({ label: `population > ${val}`, fn: s => s.population > val });
-      cats.push({ label: `population <= ${val}`, fn: s => s.population <= val });
-    });
-    if (cats.length < 6) cats.push({ label: 'no special designation', fn: () => true });
+
+    cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
+    cats.push({ label: 'population <= 10000', fn: x => x.population <= 10000 });
+    cats.push({ label: 'population > 50000', fn: x => x.population > 50000 });
+    cats.push({ label: 'population <= 50000', fn: x => x.population <= 50000 });
+    cats.push({ label: 'population > 100000', fn: x => x.population > 100000 });
+    cats.push({ label: 'population <= 100000', fn: x => x.population <= 100000 });
+
+    if (cats.length < 6) {
+      cats.push({ label: 'no special designation', fn: _ => true });
+    }
     return cats;
   }
 
-  function conflicting(a, b) {
-    const conflicts = [
+  function conflictingCats(cat1, cat2) {
+    const pairs = [
       ['population > 10000', 'population <= 10000'],
       ['population > 50000', 'population <= 50000'],
       ['population > 100000', 'population <= 100000'],
@@ -43,48 +56,60 @@ document.addEventListener('DOMContentLoaded', () => {
       ['new town', 'not new town'],
       ['market town', 'not market town']
     ];
-    return conflicts.some(([x, y]) =>
-      (a.label === x && b.label === y) || (a.label === y && b.label === x)
+    return pairs.some(([a, b]) =>
+      (cat1.label === a && cat2.label === b) || (cat1.label === b && cat2.label === a)
     );
   }
 
-  let rowCats = [];
-  let colCats = [];
-  let target;
+  function getRandomSettlement() {
+    return settlements[Math.floor(Math.random() * settlements.length)];
+  }
 
+  let rowCats = [], colCats = [];
   function buildPuzzle() {
-    // clear previous state
-    header.classList.remove('chosen');
-    container.innerHTML = '';
-    resultMessage.textContent = '';
-
-    // pick target and highlight header
-    target = settlements[Math.floor(Math.random() * settlements.length)];
-    header.textContent = `🔍 ${target.name.charAt(0).toUpperCase() + target.name.slice(1)}`;
-    header.classList.add('chosen');
-
-    // choose 6 non-conflicting categories
-    const allCats = shuffle(getAllCategories(target));
+    const target = getRandomSettlement();
+    let allCats = getAllCategories(target);
+    shuffle(allCats);
     const chosen = [];
-    allCats.forEach(cat => {
-      if (chosen.length < 6 && chosen.every(c => !conflicting(c, cat))) {
+
+    for (let i = 0; i < allCats.length && chosen.length < 6; i++) {
+      const cat = allCats[i];
+      if (chosen.every(c => !conflictingCats(c, cat))) {
         chosen.push(cat);
       }
-    });
-    while (chosen.length < 6) {
-      chosen.push({ label: 'no special designation', fn: () => true });
     }
+
+    while (chosen.length < 6) {
+      chosen.push({ label: 'no special designation', fn: _ => true });
+    }
+
     rowCats = chosen.slice(0, 3);
     colCats = chosen.slice(3, 6);
 
-    // build grid: 4x4 labels + 3x3 inputs
-    // header corner
-    container.appendChild(createLabel('', 1, 1));
-    // column headers
-    colCats.forEach((cat, j) => container.appendChild(createLabel(cat.label, 1, j + 2)));
-    // rows
+    container.innerHTML = '';
+    const corner = document.createElement('div');
+    corner.className = 'label-cell';
+    corner.style.gridRow = 1;
+    corner.style.gridColumn = 1;
+    container.appendChild(corner);
+
+    colCats.forEach((cat, j) => {
+      const el = document.createElement('div');
+      el.className = 'label-cell';
+      el.style.gridRow = 1;
+      el.style.gridColumn = j + 2;
+      el.textContent = cat.label;
+      container.appendChild(el);
+    });
+
     rowCats.forEach((cat, i) => {
-      container.appendChild(createLabel(cat.label, i + 2, 1));
+      const rowLabel = document.createElement('div');
+      rowLabel.className = 'label-cell';
+      rowLabel.style.gridRow = i + 2;
+      rowLabel.style.gridColumn = 1;
+      rowLabel.textContent = cat.label;
+      container.appendChild(rowLabel);
+
       for (let j = 0; j < 3; j++) {
         const cell = document.createElement('div');
         cell.className = 'grid-cell';
@@ -97,48 +122,32 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(cell);
       }
     });
+
+    resultMessage.textContent = '';
   }
 
-  function createLabel(text, row, col) {
-    const el = document.createElement('div');
-    el.className = 'grid-cell';
-    el.style.gridRow = row;
-    el.style.gridColumn = col;
-    el.textContent = text;
-    return el;
-  }
-
-  function checkPuzzle() {
-    const entries = [];
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        entries.push(document.getElementById(`input-${i}-${j}`).value.trim().toLowerCase());
-      }
-    }
-    const counts = entries.reduce((acc, v) => {
-      if (v) acc[v] = (acc[v] || 0) + 1;
-      return acc;
-    }, {});
-
+  checkButton.addEventListener('click', () => {
     let allCorrect = true;
+    const usedTowns = new Set();
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         const input = document.getElementById(`input-${i}-${j}`);
         const cell = input.parentElement;
         const val = input.value.trim().toLowerCase();
-        const settlement = settlements.find(s => s.name.toLowerCase() === val);
-        let ok = settlement && rowCats[i].fn(settlement) && colCats[j].fn(settlement);
-        if (val && counts[val] > 1) ok = false;
-        cell.classList.toggle('correct', ok);
-        cell.classList.toggle('incorrect', !ok);
+        const obj = settlements.find(s => s.name.toLowerCase() === val);
+
+        let ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj);
+        if (usedTowns.has(val)) ok = false;
+        if (ok) usedTowns.add(val);
+
+        cell.classList.remove('correct', 'incorrect');
+        cell.classList.add(ok ? 'correct' : 'incorrect');
         if (!ok) allCorrect = false;
       }
     }
     resultMessage.textContent = allCorrect ? '✅ All correct!' : '❌ Some incorrect.';
-  }
+  });
 
-  checkButton.addEventListener('click', checkPuzzle);
   newPuzzleButton.addEventListener('click', buildPuzzle);
-
   buildPuzzle();
 });
