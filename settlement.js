@@ -334,6 +334,7 @@ const AREA_TRAIN_STATIONS = {
   "helensburgh": true,
   "north berwick": true,
   "westhill": false,
+  "addiewell": false,
   "whitburn": false,
   "fauldhouse": true,
   "annan": true,
@@ -417,7 +418,7 @@ export default (rawSettlements => {
 })([
   
   //AREAS//
-   { name: 'anderston', status: 'area', population: 7400, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'anderston', status: 'area', population: 7400, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'anniesland', status: 'area', population: 9100, council: 'glasgow city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'govan', status: 'area', population: 11400, council: 'glasgow city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'hillhead', status: 'area', population: 10500, council: 'glasgow city council', geography_type: 'on river', region: 'Central Belt', has_uni: false, largest_settlement: null },
@@ -451,8 +452,13 @@ export default (rawSettlements => {
   { name: 'edinburgh park', status: 'area', population: 1000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'murrayfield', status: 'area', population: 7000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'balgreen', status: 'area', population: 3500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
-  { name: 'silverknowes', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
-  { name: 'granton', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'silverknowes', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'granton', status: 'area', population: 14000, council: 'edinburgh city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'drylaw', status: 'area', population: 4400, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'pilton', status: 'area', population: 2000, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'muirhouse', status: 'area', population: 5500, council: 'edinburgh city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  { name: 'portobello', status: 'area', population: 3400, council: 'edinburgh city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
+  
   
   { name: 'altens', status: 'area', population: 4000, council: 'aberdeen city council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: null },
   { name: 'bridge of don', status: 'area', population: 11800, council: 'aberdeen city council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: null },
@@ -544,6 +550,7 @@ export default (rawSettlements => {
   { name: 'north berwick', status: 'town', population: 7600, council: 'east lothian council', geography_type: 'coastal', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'westhill', status: 'town', population: 12000, council: 'aberdeenshire council', geography_type: 'landlocked', region: 'Highlands', has_uni: false, largest_settlement: false },
   { name: 'whitburn', status: 'town', population: 15000, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
+  { name: 'addiewell', status: 'town', population: 1300, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'fauldhouse', status: 'town', population: 4800, council: 'west lothian council', geography_type: 'landlocked', region: 'Central Belt', has_uni: false, largest_settlement: false },
   { name: 'annan', status: 'town', population: 8900, council: 'dumfries and galloway council', geography_type: 'coastal', region: 'Borders', has_uni: false, largest_settlement: false },
   { name: 'arbroath', status: 'town', population: 23800, council: 'angus council', geography_type: 'coastal', region: 'Highlands', has_uni: false, largest_settlement: false },
