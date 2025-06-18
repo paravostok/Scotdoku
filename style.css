@@ -7,7 +7,7 @@ body {
   padding: 0;
 }
 
-/* grid container: 4 columns x 4 rows (labels + inputs) */
+/* grid container: 4 columns x 4 rows */
 .grid-container {
   display: grid;
   grid-template-columns: 120px repeat(3, 1fr);
@@ -22,21 +22,26 @@ body {
   padding: 10px;
 }
 
-/* row/column header cells */
+/* header/label cells */
 .label-cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  font-weight: bold;
   text-align: center;
+  padding: 4px;
+  font-size: 1rem;
+  font-weight: 600;
   background-color: #eef2f7;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding: 4px;
+  max-width: 120px;
+  height: 100%;
+}
+.label-cell.shrink {
+  font-size: 0.8rem;
 }
 
 /* input cells */
@@ -60,16 +65,12 @@ body {
   position: relative;
   z-index: 2;
 }
-
-/* correctness feedback */
 .select-cell.correct {
   outline: 3px solid #28a745;
 }
 .select-cell.incorrect {
   outline: 3px solid #dc3545;
 }
-
-/* golden flag background for chosen settlement */
 .select-cell.golden-settlement {
   border: 2px solid gold;
 }
@@ -86,7 +87,7 @@ body {
   z-index: 1;
 }
 
-/* header and controls */
+/* header & controls */
 .header {
   text-align: center;
   margin-top: 20px;
