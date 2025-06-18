@@ -1,4 +1,4 @@
-// scotdoku.js - fixed version with feedback classes and unique entry enforcement
+// scotdoku.js - final working version with golden cell and uniqueness
 import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const newPuzzleButton = document.getElementById('new-puzzle-button');
   const resultMessage = document.getElementById('result-message');
   if (!container || !checkButton || !newPuzzleButton) return;
+
+  let target = null;
 
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -21,17 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const tags = s.tags;
 
     tags.forEach(tag => {
-      cats.push({
-        label: tag,
-        fn: x => x.tags.includes(tag)
-      });
+      cats.push({ label: tag, fn: x => x.tags.includes(tag) });
     });
 
-    ['new town', 'market town', 'town'].forEach(tag => {
-      cats.push({
-        label: `not ${tag}`,
-        fn: x => !x.tags.includes(tag)
-      });
+    ['new town','market town','town'].forEach(tag => {
+      cats.push({ label: `not ${tag}`, fn: x => !x.tags.includes(tag) });
     });
 
     cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
@@ -67,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let rowCats = [], colCats = [];
   function buildPuzzle() {
-    const target = getRandomSettlement();
+    target = getRandomSettlement();
     let allCats = getAllCategories(target);
     shuffle(allCats);
     const chosen = [];
@@ -112,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       for (let j = 0; j < 3; j++) {
         const cell = document.createElement('div');
-        cell.className = 'grid-cell';
+        cell.className = 'select-cell';
         cell.style.gridRow = i + 2;
         cell.style.gridColumn = j + 2;
         const input = document.createElement('input');
@@ -128,24 +124,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkButton.addEventListener('click', () => {
     let allCorrect = true;
-    const usedTowns = new Set();
+    const used = new Set();
+
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         const input = document.getElementById(`input-${i}-${j}`);
         const cell = input.parentElement;
         const val = input.value.trim().toLowerCase();
         const obj = settlements.find(s => s.name.toLowerCase() === val);
+        const duplicate = used.has(val);
+        const ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj) && !duplicate;
 
-        let ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj);
-        if (usedTowns.has(val)) ok = false;
-        if (ok) usedTowns.add(val);
+        used.add(val);
 
-        cell.classList.remove('correct', 'incorrect');
-        cell.classList.add(ok ? 'correct' : 'incorrect');
+        cell.classList.remove('correct', 'incorrect', 'golden');
+        if (ok) {
+          cell.classList.add('correct');
+          if (val === target.name.toLowerCase()) {
+            cell.classList.add('golden');
+          }
+        } else {
+          cell.classList.add('incorrect');
+        }
+
         if (!ok) allCorrect = false;
       }
     }
-    resultMessage.textContent = allCorrect ? '✅ All correct!' : '❌ Some incorrect.';
+
+    resultMessage.textContent = allCorrect ? '✅ All correct!' : '❌ Some incorrect or duplicates.';
   });
 
   newPuzzleButton.addEventListener('click', buildPuzzle);
