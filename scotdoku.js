@@ -19,6 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return arr;
   }
 
+  function abbreviateLabel(label) {
+    return label
+      .replace('population > 100000', 'pop. > 100k')
+      .replace('population <= 100000', 'pop. ≤ 100k')
+      .replace('population > 50000', 'pop. > 50k')
+      .replace('population <= 50000', 'pop. ≤ 50k')
+      .replace('population > 10000', 'pop. > 10k')
+      .replace('population <= 10000', 'pop. ≤ 10k')
+      .replace('not market town', '≠ market town')
+      .replace('not new town', '≠ new town')
+      .replace('not town', '≠ town')
+      .replace('no special designation', 'no spec. status');
+  }
+
   function getAllCategories(s) {
     const cats = [];
     s.tags.forEach(tag => cats.push({ label: tag, fn: x => x.tags.includes(tag) }));
@@ -67,14 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(labelCell('', 1, 1));
 
     colCats.forEach((cat, j) => {
-      const el = labelCell(cat.label, 1, j + 2);
-      if (cat.label.length > 18) el.classList.add('shrink');
+      const el = labelCell(abbreviateLabel(cat.label), 1, j + 2);
       container.appendChild(el);
     });
 
     rowCats.forEach((cat, i) => {
-      const el = labelCell(cat.label, i + 2, 1);
-      if (cat.label.length > 18) el.classList.add('shrink');
+      const fullText = abbreviateLabel(cat.label);
+      const el = labelCell(fullText, i + 2, 1);
+      if (fullText.length > 14) el.classList.add('shrink');
       container.appendChild(el);
       for (let j = 0; j < 3; j++) {
         const cell = document.createElement('div');
