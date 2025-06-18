@@ -38,12 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ['population > 10000','population <= 10000'],
       ['population > 50000','population <= 50000'],
       ['population > 100000','population <= 100000'],
-      ['town','not town'],
-      ['new town','not new town'],
-      ['market town','not market town']
+      ['town','not town'],['new town','not new town'],['market town','not market town']
     ];
-    return pairs.some(([x, y]) =>
-      (a.label === x && b.label === y) || (a.label === y && b.label === x)
+    return pairs.some(([x,y]) =>
+      (a.label===x&&b.label===y)||(a.label===y&&b.label===x)
     );
   }
 
@@ -63,12 +61,21 @@ document.addEventListener('DOMContentLoaded', () => {
     colCats = chosen.slice(3, 6);
 
     container.innerHTML = '';
+    container.style.gridTemplateRows = `60px repeat(3, 1fr)`;
+
     // corner
     container.appendChild(labelCell('', 1, 1));
 
-    colCats.forEach((cat, j) => container.appendChild(labelCell(cat.label, 1, j + 2)));
+    colCats.forEach((cat, j) => {
+      const el = labelCell(cat.label, 1, j + 2);
+      if (cat.label.length > 18) el.classList.add('shrink');
+      container.appendChild(el);
+    });
+
     rowCats.forEach((cat, i) => {
-      container.appendChild(labelCell(cat.label, i + 2, 1));
+      const el = labelCell(cat.label, i + 2, 1);
+      if (cat.label.length > 18) el.classList.add('shrink');
+      container.appendChild(el);
       for (let j = 0; j < 3; j++) {
         const cell = document.createElement('div');
         cell.className = 'select-cell';
