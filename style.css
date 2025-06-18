@@ -20,31 +20,29 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 6px rgba(0,0,0,0.1);
   padding: 10px;
-  box-sizing: border-box;
+  overflow-x: auto;
 }
 
-/* header & column label cells */
+/* header/label cells */
 .label-cell {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 4px;
+  padding: 6px;
   font-size: 1rem;
   font-weight: 600;
   background-color: #eef2f7;
   border: 1px solid #ccc;
   border-radius: 4px;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   max-width: 120px;
-  max-height: 80px;
-  height: auto;
-  box-sizing: border-box;
+  height: 100%;
+  word-break: keep-all;
 }
 
-/* shrink only applies to row labels when long */
 .label-cell.shrink {
   font-size: 0.8rem;
 }
@@ -59,12 +57,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  box-sizing: border-box;
 }
 .select-cell input {
   width: 90%;
-  height: 60%;
+  height: 90%;
   border: none;
   font-size: 1.2rem;
   text-align: center;
@@ -127,3 +123,27 @@ button:hover { background-color: #1a242f; }
   font-size: 0.9rem;
 }
 .site-footer p { font-style: italic; }
+
+/* mobile tweaks */
+@media (max-width: 600px) {
+  .grid-container {
+    display: block;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+
+  .label-cell {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 0.75rem;
+    max-width: none;
+  }
+
+  .label-cell.shrink {
+    font-size: 0.65rem;
+  }
+
+  .select-cell input {
+    font-size: 1rem;
+  }
+}
