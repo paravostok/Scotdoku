@@ -1,4 +1,4 @@
-// scotdoku.js - final working version with golden cell and uniqueness
+/* scotdoku.js */
 import settlements from './settlement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultMessage = document.getElementById('result-message');
   if (!container || !checkButton || !newPuzzleButton) return;
 
-  let target = null;
+  let selectedTown = null;
+  let rowCats = [], colCats = [];
 
   function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -20,140 +21,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getAllCategories(s) {
     const cats = [];
-    const tags = s.tags;
-
-    tags.forEach(tag => {
-      cats.push({ label: tag, fn: x => x.tags.includes(tag) });
+    s.tags.forEach(tag => cats.push({ label: tag, fn: x => x.tags.includes(tag) }));
+    ['new town','market town','town'].forEach(tag =>
+      cats.push({ label: `not ${tag}`, fn: x => !x.tags.includes(tag) })
+    );
+    [10000,50000,100000].forEach(val => {
+      cats.push({ label: `population > ${val}`, fn: x => x.population > val });
+      cats.push({ label: `population <= ${val}`, fn: x => x.population <= val });
     });
-
-    ['new town','market town','town'].forEach(tag => {
-      cats.push({ label: `not ${tag}`, fn: x => !x.tags.includes(tag) });
-    });
-
-    cats.push({ label: 'population > 10000', fn: x => x.population > 10000 });
-    cats.push({ label: 'population <= 10000', fn: x => x.population <= 10000 });
-    cats.push({ label: 'population > 50000', fn: x => x.population > 50000 });
-    cats.push({ label: 'population <= 50000', fn: x => x.population <= 50000 });
-    cats.push({ label: 'population > 100000', fn: x => x.population > 100000 });
-    cats.push({ label: 'population <= 100000', fn: x => x.population <= 100000 });
-
-    if (cats.length < 6) {
-      cats.push({ label: 'no special designation', fn: _ => true });
-    }
+    if (cats.length < 6) cats.push({ label: 'no special designation', fn: _=>true });
     return cats;
   }
 
-  function conflictingCats(cat1, cat2) {
+  function conflicting(a,b) {
     const pairs = [
-      ['population > 10000', 'population <= 10000'],
-      ['population > 50000', 'population <= 50000'],
-      ['population > 100000', 'population <= 100000'],
-      ['town', 'not town'],
-      ['new town', 'not new town'],
-      ['market town', 'not market town']
+      ['population > 10000','population <= 10000'],
+      ['population > 50000','population <= 50000'],
+      ['population > 100000','population <= 100000'],
+      ['town','not town'],['new town','not new town'],['market town','not market town']
     ];
-    return pairs.some(([a, b]) =>
-      (cat1.label === a && cat2.label === b) || (cat1.label === b && cat2.label === a)
+    return pairs.some(([x,y])=>
+      (a.label===x&&b.label===y)||(a.label===y&&b.label===x)
     );
   }
 
   function getRandomSettlement() {
-    return settlements[Math.floor(Math.random() * settlements.length)];
+    return settlements[Math.floor(Math.random()*settlements.length)];
   }
 
-  let rowCats = [], colCats = [];
   function buildPuzzle() {
-    target = getRandomSettlement();
-    let allCats = getAllCategories(target);
-    shuffle(allCats);
+    selectedTown = null;
+    const target = getRandomSettlement();
+    const allCats = shuffle(getAllCategories(target));
     const chosen = [];
-
-    for (let i = 0; i < allCats.length && chosen.length < 6; i++) {
-      const cat = allCats[i];
-      if (chosen.every(c => !conflictingCats(c, cat))) {
-        chosen.push(cat);
-      }
-    }
-
-    while (chosen.length < 6) {
-      chosen.push({ label: 'no special designation', fn: _ => true });
-    }
-
-    rowCats = chosen.slice(0, 3);
-    colCats = chosen.slice(3, 6);
-
-    container.innerHTML = '';
-    const corner = document.createElement('div');
-    corner.className = 'label-cell';
-    corner.style.gridRow = 1;
-    corner.style.gridColumn = 1;
-    container.appendChild(corner);
-
-    colCats.forEach((cat, j) => {
-      const el = document.createElement('div');
-      el.className = 'label-cell';
-      el.style.gridRow = 1;
-      el.style.gridColumn = j + 2;
-      el.textContent = cat.label;
-      container.appendChild(el);
+    allCats.forEach(cat => {
+      if (chosen.length<6 && chosen.every(c=>!conflicting(c,cat))) chosen.push(cat);
     });
+    while(chosen.length<6) chosen.push({ label:'no special designation', fn:_=>true });
+    rowCats = chosen.slice(0,3);
+    colCats = chosen.slice(3);
 
-    rowCats.forEach((cat, i) => {
-      const rowLabel = document.createElement('div');
-      rowLabel.className = 'label-cell';
-      rowLabel.style.gridRow = i + 2;
-      rowLabel.style.gridColumn = 1;
-      rowLabel.textContent = cat.label;
-      container.appendChild(rowLabel);
-
-      for (let j = 0; j < 3; j++) {
-        const cell = document.createElement('div');
-        cell.className = 'select-cell';
-        cell.style.gridRow = i + 2;
-        cell.style.gridColumn = j + 2;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.id = `input-${i}-${j}`;
+    container.innerHTML='';
+    container.style.gridTemplateRows = `60px repeat(3, 1fr)`;
+    // corner
+    container.appendChild(labelCell('',1,1));
+    colCats.forEach((cat,j)=>container.appendChild(labelCell(cat.label,1,j+2)));
+    rowCats.forEach((cat,i)=>{
+      container.appendChild(labelCell(cat.label,i+2,1));
+      for(let j=0;j<3;j++){
+        const cell=document.createElement('div');
+        cell.className='select-cell';
+        cell.style.gridRow=i+2;
+        cell.style.gridColumn=j+2;
+        const input=document.createElement('input');
+        input.type='text';input.id=`in-${i}-${j}`;
+        input.addEventListener('input',()=>{
+          document.querySelectorAll('.select-cell').forEach(c=>c.classList.remove('selected-town'));
+          const v=input.value.trim().toLowerCase();
+          if(v){const o=settlements.find(s=>s.name.toLowerCase()===v);
+            if(o){cell.classList.add('selected-town');selectedTown=v;}
+          }
+        });
         cell.appendChild(input);
         container.appendChild(cell);
       }
     });
-
-    resultMessage.textContent = '';
+    resultMessage.textContent='';
   }
 
-  checkButton.addEventListener('click', () => {
-    let allCorrect = true;
-    const used = new Set();
+  function labelCell(txt,r,c){
+    const el=document.createElement('div');el.className='label-cell';
+    el.style.gridRow=r;el.style.gridColumn=c;el.textContent=txt;return el;
+  }
 
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        const input = document.getElementById(`input-${i}-${j}`);
-        const cell = input.parentElement;
-        const val = input.value.trim().toLowerCase();
-        const obj = settlements.find(s => s.name.toLowerCase() === val);
-        const duplicate = used.has(val);
-        const ok = obj && rowCats[i].fn(obj) && colCats[j].fn(obj) && !duplicate;
-
-        used.add(val);
-
-        cell.classList.remove('correct', 'incorrect', 'golden');
-        if (ok) {
-          cell.classList.add('correct');
-          if (val === target.name.toLowerCase()) {
-            cell.classList.add('golden');
-          }
-        } else {
-          cell.classList.add('incorrect');
-        }
-
-        if (!ok) allCorrect = false;
-      }
+  checkButton.addEventListener('click',()=>{
+    let okAll=true; const used=new Set();
+    for(let i=0;i<3;i++)for(let j=0;j<3;j++){
+      const inp=document.getElementById(`in-${i}-${j}`);
+      const cell=inp.parentElement;
+      const v=inp.value.trim().toLowerCase();
+      const o=settlements.find(s=>s.name.toLowerCase()===v);
+      const unique=!used.has(v);
+      let ok=o&&rowCats[i].fn(o)&&colCats[j].fn(o)&&unique;
+      used.add(v);
+      cell.classList.remove('correct','incorrect');
+      if(v===selectedTown) cell.classList.add('selected-town');
+      cell.classList.add(ok?'correct':'incorrect');
+      if(!ok) okAll=false;
     }
-
-    resultMessage.textContent = allCorrect ? '✅ All correct!' : '❌ Some incorrect or duplicates.';
+    resultMessage.textContent=okAll?'✅ All correct!':'❌ Some incorrect.';
   });
 
-  newPuzzleButton.addEventListener('click', buildPuzzle);
+  newPuzzleButton.addEventListener('click',buildPuzzle);
   buildPuzzle();
 });
