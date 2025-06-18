@@ -23,8 +23,7 @@ body {
   box-sizing: border-box;
 }
 
-/* header/label cells */
-/* header/label cells */
+/* header & column label cells */
 .label-cell {
   display: flex;
   align-items: center;
@@ -44,9 +43,8 @@ body {
   height: auto;
   box-sizing: border-box;
 }
-.label-cell.shrink {
-  font-size: 0.8rem;
-}
+
+/* shrink only applies to row labels when long */
 .label-cell.shrink {
   font-size: 0.8rem;
 }
